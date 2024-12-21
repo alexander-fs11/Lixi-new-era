@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Rangos - Lixi Exchange</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #4b0082;
+        }
+        .container {
+            background-color: #dcd6f7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        select, input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4b0082;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5a0dad;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #4b0082;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #4b0082;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Rangos</h1>
+    <div class="container">
+        <form id="calculadora">
+            <!-- Paso 1: Selección del rango de compra -->
+            <label for="rango-compra">Rango en que se compra:</label><br>
+            <select id="rango-compra">
+                <option value="morado">Rango Morado</option>
+                <option value="rojo">Rango Rojo</option>
+            </select><br>
+
+            <!-- Paso 2: Ingresa el precio mínimo -->
+            <label for="precio-min">Ingresa el precio (en precio mínimo):</label><br>
+            <input type="number" id="precio-min" placeholder="Ejemplo: 10,000"><br>
+
+            <!-- Paso 3: Selección del rango de venta -->
+            <label for="rango-venta">Rango en que se vende:</label><br>
+            <select id="rango-venta">
+                <option value="naranja">Rango Naranja</option>
+                <option value="rojo">Rango Rojo</option>
+            </select><br>
+
+            <!-- Nuevo Paso 4: Precio de venta -->
+            <label for="precio-max">Ingresa el precio de venta (en precio máximo):</label><br>
+            <input type="number" id="precio-max" placeholder="Ejemplo: 15,000"><br>
+
+            <!-- Botón de cálculo -->
+            <button type="button" onclick="calcular()">Calcular</button>
+        </form>
+
+        <!-- Paso 6: Resultado final -->
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <div class="footer">
+        <p>By Lixi Exchange New Era</p>
+    </div>
+
+    <script>
+        function calcular() {
+            // Obtención de valores
+            const rangoCompra = document.getElementById("rango-compra").value;
+            const precioMin = parseFloat(document.getElementById("precio-min").value);
+            const rangoVenta = document.getElementById("rango-venta").value;
+            const precioMax = parseFloat(document.getElementById("precio-max").value);
+
+            if (isNaN(precioMin) || isNaN(precioMax)) {
+                document.getElementById("resultado").textContent = "Por favor, ingresa valores válidos.";
+                return;
+            }
+
+            // Cálculo del precio ajustado
+            let precioAjustado = 0;
+            if (rangoCompra === "morado" && rangoVenta === "naranja") {
+                precioAjustado = (precioMax * 0.9) / 4;
+            } else if (rangoCompra === "rojo" && rangoVenta === "naranja") {
+                precioAjustado = (precioMax * 0.9) / 2;
+            } else if (rangoCompra === "morado" && rangoVenta === "rojo") {
+                precioAjustado = (precioMax * 0.9) / 2;
+            }
+
+            // Cálculo de ganancia o pérdida
+            const diferencia = precioAjustado - precioMin;
+            const resultado = diferencia > 0
+                ? `Ganancia (${diferencia.toLocaleString()} por carta)`
+                : `Pérdida (${Math.abs(diferencia).toLocaleString()} por carta)`;
+
+            // Mostrar el resultado
+            document.getElementById("resultado").textContent = resultado;
+        }
+    </script>
+</body>
+</html>
